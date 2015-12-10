@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface PDramaDetailViewController : PBasicViewController
-@property (nonatomic,strong)  NSString *movieName;
+@property (nonatomic,strong)  NSString                    *movieName;
 @end

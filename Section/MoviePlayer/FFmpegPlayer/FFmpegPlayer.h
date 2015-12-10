@@ -10,15 +10,18 @@
 
 typedef void (^LimitFullScreenBlock)(BOOL isFullScreen);
 typedef void (^BarrageTextBlock)(NSString * string);
+typedef void (^CancelKeyViewBlock)(BOOL removeNotice);
 @interface FFmpegPlayer : UIView
 
 @property (copy,nonatomic)LimitFullScreenBlock              limitFullScreenBlock;
 @property (copy,nonatomic)BarrageTextBlock                  barrageTextBlock;
-@property (weak, nonatomic) IBOutlet UILabel                *movieTextLabel;//影片名称
+@property (copy,nonatomic)CancelKeyViewBlock                cancelKeyViewBlock;
+@property (weak,nonatomic) IBOutlet UILabel                 *movieTextLabel;//影片名称
 @property (weak,nonatomic) UIViewController                 *viewController;
 @property (readonly) BOOL                                   playing;
-@property (nonatomic, strong)IBOutlet PBarrageView          *barrageView;
+@property (strong,nonatomic)IBOutlet PBarrageView           *barrageView;
 @property (weak, nonatomic) IBOutlet UITextField            *barrawTextField;
+
 
 + (FFmpegPlayer *)initNib;
 - (void)playWithContentPath: (NSString *) path parameters: (NSDictionary *) parameters;

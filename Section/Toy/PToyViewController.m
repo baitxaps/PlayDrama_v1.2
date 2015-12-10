@@ -25,7 +25,7 @@
 @property (strong, nonatomic) UIScrollView              *scrollView;
 @property (assign, nonatomic) NSInteger                 currentIndex;//当前选中的item
 @property (assign, nonatomic) BOOL                      refreshShowHud;
-@property (strong, nonatomic) PNoDataView           *noDataView;
+@property (strong, nonatomic) PNoDataView               *noDataView;
 @property (strong, nonatomic) NSMutableArray            *dataArray;
 @property (strong, nonatomic) NSArray                   *imgs;
 
@@ -50,13 +50,12 @@
     self.imgs = @[
                   @"包", @"车",@"手表1",@"手表2",@"香水",@"香水2"
                   
-                  
-//                  @"http://a.hiphotos.baidu.com/image/pic/item/908fa0ec08fa513dee943c09396d55fbb2fbd92f.jpg",
-//                  @"http://a.hiphotos.baidu.com/image/pic/item/377adab44aed2e7323bcd7fb8301a18b86d6fa94.jpg",
-//                  @"http://e.hiphotos.baidu.com/image/pic/item/7c1ed21b0ef41bd5c16bb82355da81cb39db3d28.jpg",
-//                  @"http://c.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fa6daf009f41f3a292cf578b1.jpg",
-//                  @"http://f.hiphotos.baidu.com/image/pic/item/bd315c6034a85edfb845aff44d540923dc54751f.jpg",
-//                  @"http://e.hiphotos.baidu.com/image/pic/item/d833c895d143ad4b553d10e787025aafa40f0681.jpg",
+//  @"http://a.hiphotos.baidu.com/image/pic/item/908fa0ec08fa513dee943c09396d55fbb2fbd92f.jpg",
+//  @"http://a.hiphotos.baidu.com/image/pic/item/377adab44aed2e7323bcd7fb8301a18b86d6fa94.jpg",
+//  @"http://e.hiphotos.baidu.com/image/pic/item/7c1ed21b0ef41bd5c16bb82355da81cb39db3d28.jpg",
+//  @"http://c.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fa6daf009f41f3a292cf578b1.jpg",
+//  @"http://f.hiphotos.baidu.com/image/pic/item/bd315c6034a85edfb845aff44d540923dc54751f.jpg",
+//  @"http://e.hiphotos.baidu.com/image/pic/item/d833c895d143ad4b553d10e787025aafa40f0681.jpg",
                   ];
 }
 
@@ -85,8 +84,8 @@
     _menuView.maxItemsCountPerPage  = 3;
     _menuView.selectColor           = RGB(0xf7653e, 1);// f6e60d
     _menuView.menuItemArray         = [NSMutableArray arrayWithArray:
-                                       @[NSLocalizedString(@"新品", nil),
-                                         NSLocalizedString(@"拍卖", nil),
+                                       @[NSLocalizedString(@"拍卖", nil),
+                                         NSLocalizedString(@"新品", nil),
                                          NSLocalizedString(@"热门", nil)
                                          ]];
     
@@ -106,10 +105,10 @@
                                                    kGOSegmentMenuViewH,
                                                    UIScreenWidth,
                                                    scrollViewHeight)];
-    _scrollView.pagingEnabled = YES;
-    _scrollView.delegate = self;
+    _scrollView.pagingEnabled   = YES;
+    _scrollView.delegate        = self;
     _scrollView.showsHorizontalScrollIndicator = NO;
-    _scrollView.contentSize = CGSizeMake(UIScreenWidth * 3, scrollViewHeight);
+    _scrollView.contentSize     = CGSizeMake(UIScreenWidth * 3, scrollViewHeight);
     _scrollView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_scrollView];
     
@@ -122,7 +121,7 @@
         CGFloat orginX = i*UIScreenWidth;
         CGFloat orginY = 0;
         CGFloat tableH = scrollViewHeight;
-        if (i ==1) {
+        if (i ==0) {
             PAuctionViewController *pvc = \
             [[PAuctionViewController alloc]init];
             pvc.view.frame = CGRectMake(orginX, orginY, UIScreenWidth, tableH-49);
@@ -146,7 +145,7 @@
         [collectionView registerNib:nib
          forCellWithReuseIdentifier:@"PToyCollectionViewCell"];
         [_scrollView addSubview:collectionView];
-        if (i == 0)
+        if (i == 1)
         {
             _currentCollectionView = collectionView;
         }
@@ -181,7 +180,7 @@
                                            UIScreenWidth,
                                            UIScreenHeight);
     weakSelf.noDataView.hidden = YES;
-    if (index == 1) {
+    if (index == 0) {
         [_searchView hide];
         [weakSelf setScrollViewContentOffsetWithIndex:index];
         

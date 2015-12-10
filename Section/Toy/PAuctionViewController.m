@@ -46,8 +46,8 @@
 {
     [super viewDidLoad];
     [self setupSubviews];
-    [self socketInit];
-    //[self initData];
+    //[self socketInit];
+    [self initData];
 }
 
 - (void)initData

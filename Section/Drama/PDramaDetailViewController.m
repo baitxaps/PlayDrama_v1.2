@@ -38,7 +38,6 @@
 {
     AppDelegate                 *_app ;
     PTabControlView             *_tabView;
-    PKeyBoardView               *_inputView;
 }
 @property (weak,  nonatomic) IBOutlet UITableView       *dramaDetailTableView;
 @property (weak,  nonatomic) IBOutlet UIView            *dramaHeadView;
@@ -55,6 +54,7 @@
 @property (strong,nonatomic) NSArray                    *keys;
 @property (strong,nonatomic) SRWebSocket                *webSocket;
 @property (strong,nonatomic) NSMutableArray             *messages;
+@property (strong,nonatomic) PKeyBoardView              *keyBoardView;
 @end
 
 @implementation PDramaDetailViewController
@@ -177,7 +177,7 @@
         [self.commentData addObject:commentEntity];
         
         if (i ==0) {
-            self.dramaEntity = [[PDramaEntity alloc]init];
+            self.dramaEntity           = [[PDramaEntity alloc]init];
             self.dramaEntity.movieName = @"金钢侠";
             self.dramaEntity.movieDist = @"海外";
             self.dramaEntity.movieType = @"古装/爱情/传奇";
@@ -257,10 +257,18 @@
         [weakSelf.webSocket send:string];
     };
     
+    _ffmpegPlayer.cancelKeyViewBlock = ^(BOOL removeNotice){
+        if (removeNotice) {
+           [weakSelf.keyBoardView removeNotification];
+        }else{
+           [weakSelf.keyBoardView registerNotification];
+        }
+    };
+    
     //5
-    _inputView = [[PKeyBoardView alloc] initWithFrame:CGRectMake(0, UIScreenHeight, self.view.frame.size.width, 44)];
-    _inputView.delegate = self;
-    [self.view addSubview:_inputView];
+    _keyBoardView = [[PKeyBoardView alloc] initWithFrame:CGRectMake(0, UIScreenHeight, self.view.frame.size.width, 44)];
+    _keyBoardView.delegate = self;
+    [self.view addSubview:_keyBoardView];
 }
 
 - (void)resizePlayerFrame:(BOOL)isFullScreen
@@ -301,7 +309,7 @@
                afterDelay:.2];
     
     [_tabView updateWithListType:self.tabInfomationType];
-    [_inputView setInputBarViewResignNoClearFirstResponder];
+    [_keyBoardView setInputBarViewResignNoClearFirstResponder];
 }
 
 #pragma mark - SRWebSocketDelegate
@@ -344,7 +352,7 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [_inputView setInputBarViewResignFirstResponder];
+    [_keyBoardView setInputBarViewResignFirstResponder];
 }
 
 
@@ -359,8 +367,6 @@
         return;
     }
 }
-
-
 
 - (BOOL)currentServiceHasMore
 {
@@ -409,7 +415,7 @@
         case PBottomBarTypeForwarding://发评论键盘激活
         {
             [self startInfoType:StarInformationTypeLeaveAMSGType];
-            [_inputView.msgTextView becomeFirstResponder];
+            [_keyBoardView.msgTextView becomeFirstResponder];
         }
             break;
             
@@ -431,7 +437,7 @@
 
 - (void)tableViewCommentsCell:(UITableViewCell *)cell
 {
-    [_inputView.msgTextView becomeFirstResponder];
+    [_keyBoardView.msgTextView becomeFirstResponder];
     NSIndexPath *indexPath = [self.dramaDetailTableView indexPathForCell:cell];
     PDebugLog(@"%@",self.commentData[indexPath.row]);
 }

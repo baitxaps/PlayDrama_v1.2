@@ -24,7 +24,7 @@ NSString * const KxMovieParameterDisableDeinterlacing = @"KxMovieParameterDisabl
 #import <MediaPlayer/MediaPlayer.h>
 #import "NSString+Category.h"
 
-@interface FFmpegPlayer()
+@interface FFmpegPlayer()<UITextFieldDelegate>
 {
     PSelectorView       *_selectorView;
     KxMovieDecoder      *_decoder;  //解码器
@@ -145,6 +145,21 @@ static NSString * formatTimeInterval(CGFloat seconds, BOOL isLeft)
     }
 }
 
+#pragma mark - TextFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (self.cancelKeyViewBlock) {
+        self.cancelKeyViewBlock(YES);
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (self.cancelKeyViewBlock) {
+        self.cancelKeyViewBlock(NO);
+    }
+}
+
 - (void)loadBarrageViewData
 {
     _barrageView.backgroundColor = [UIColor clearColor];
@@ -152,6 +167,7 @@ static NSString * formatTimeInterval(CGFloat seconds, BOOL isLeft)
                                                                     action:@selector(handleTap:)];
     _tapGestureRecognizer.numberOfTapsRequired = 1;
     [self.barrageView addGestureRecognizer:_tapGestureRecognizer];
+    self.barrawTextField.delegate   =self;
 }
 
 
